@@ -1,0 +1,37 @@
+// Define database connection via the `PRISMA_DATABASE_URL` env var
+datasource db {
+  provider = "postgresql"
+  url      = env("PRISMA_DATABASE_URL")
+}
+
+// Define custom output path for generated Prisma Client
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Data models
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  email     String   @unique
+  password  String
+}
+
+model Student {
+  id         Int      @id @default(autoincrement())
+  firstName  String
+  middleName String?
+  lastName   String
+  suffix     String?
+  lrn        String   @unique
+  email      String   @unique
+  phone      String?
+  address    String?
+  strand     String?
+  gender     String?
+  score      Int?
+  examTotal  Int?
+  examDate   DateTime?
+}
+
