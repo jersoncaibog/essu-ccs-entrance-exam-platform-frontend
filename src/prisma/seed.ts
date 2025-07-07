@@ -5,29 +5,20 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Starting database seed...");
 
-  // Create sample users
-  const user1 = await prisma.user.upsert({
-    where: { email: "admin@essu.edu.ph" },
-    update: {},
-    create: {
-      name: "Admin User",
-      email: "admin@essu.edu.ph",
-      password: "hashedpassword123",
-    },
-  });
+  // Note: For Google OAuth, users are created automatically when they sign in
+  // No need to create users manually in the seed script
 
-  const user2 = await prisma.user.upsert({
-    where: { email: "teacher@essu.edu.ph" },
+  // Create sample admin
+  await prisma.admin.upsert({
+    where: { email: "jersoncaibog1@gmail.com" },
     update: {},
     create: {
-      name: "Teacher User",
-      email: "teacher@essu.edu.ph",
-      password: "hashedpassword456",
+      email: "jersoncaibog1@gmail.com",
     },
   });
 
   // Create sample students
-  const student1 = await prisma.student.upsert({
+  await prisma.student.upsert({
     where: { lrn: "123456789012" },
     update: {},
     create: {
@@ -43,11 +34,11 @@ async function main() {
       gender: "Male",
       score: 85,
       examTotal: 100,
-      examDate: new Date("2024-01-15"),
+      examDate: new Date("2025-01-15"),
     },
   });
 
-  const student2 = await prisma.student.upsert({
+  await prisma.student.upsert({
     where: { lrn: "123456789013" },
     update: {},
     create: {
@@ -62,11 +53,11 @@ async function main() {
       gender: "Female",
       score: 92,
       examTotal: 100,
-      examDate: new Date("2024-01-16"),
+      examDate: new Date("2025-01-16"),
     },
   });
 
-  const student3 = await prisma.student.upsert({
+  await prisma.student.upsert({
     where: { lrn: "123456789014" },
     update: {},
     create: {
@@ -80,14 +71,17 @@ async function main() {
       gender: "Male",
       score: 78,
       examTotal: 100,
-      examDate: new Date("2024-01-17"),
+      examDate: new Date("2025-01-17"),
     },
   });
 
   console.log("✅ Database seeded successfully!");
   console.log("📊 Created:");
-  console.log(`   - ${2} users`);
+  console.log(`   - ${1} admin`);
   console.log(`   - ${3} students`);
+  console.log(
+    "ℹ️  Note: Users will be created automatically when they sign in with Google OAuth"
+  );
 }
 
 main()
