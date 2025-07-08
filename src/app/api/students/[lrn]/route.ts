@@ -3,10 +3,12 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { lrn: string } }
+  { params }: { params: Promise<{ lrn: string }> }
 ) {
+  const { lrn } = await params;
+
   const student = await prisma.student.findUnique({
-    where: { lrn: params.lrn },
+    where: { lrn },
   });
 
   return NextResponse.json(student);
@@ -14,10 +16,12 @@ export async function GET(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { lrn: string } }
+  { params }: { params: Promise<{ lrn: string }> }
 ) {
+  const { lrn } = await params;
+
   const student = await prisma.student.delete({
-    where: { lrn: params.lrn },
+    where: { lrn },
   });
 
   return NextResponse.json(student, {
@@ -27,12 +31,14 @@ export async function DELETE(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { lrn: string } }
+  { params }: { params: Promise<{ lrn: string }> }
 ) {
+  const { lrn } = await params;
+
   const body = await request.json();
 
   const student = await prisma.student.update({
-    where: { lrn: params.lrn },
+    where: { lrn },
     data: body,
   });
 

@@ -3,16 +3,21 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { email } = body;
 
   const admin = await prisma.admin.create({
-    data: { email },
+    data: body,
   });
 
   return NextResponse.json(admin, {
     status: 201,
     headers: {
-      Location: `/api/admin?email=${email}`
+      Location: `/api/admin?email=${admin.email}`
     },
   });
+}
+
+export async function GET() {
+  const admins = await prisma.admin.findMany();
+
+  return NextResponse.json(admins);
 }
