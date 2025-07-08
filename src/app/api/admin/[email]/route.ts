@@ -1,9 +1,11 @@
-import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
-
-export async function GET(request: Request, { params }: { params: { email: string } }) {
-  const { email } = params;
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ email: string }> }
+) {
+  const { email } = await params;
 
   const admin = await prisma.admin.findUnique({
     where: { email },
@@ -12,8 +14,11 @@ export async function GET(request: Request, { params }: { params: { email: strin
   return NextResponse.json(admin);
 }
 
-export async function PATCH(request: Request, { params }: { params: { email: string } }) {
-  const { email } = params;
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ email: string }> }
+) {
+  const { email } = await params;
 
   const body = await request.json();
   const { email: newEmail } = body;
@@ -28,8 +33,11 @@ export async function PATCH(request: Request, { params }: { params: { email: str
   });
 }
 
-export async function DELETE(request: Request, { params }: { params: { email: string } }) {
-  const { email } = params;
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ email: string }> }
+) {
+  const { email } = await params;
 
   const admin = await prisma.admin.delete({
     where: { email },
